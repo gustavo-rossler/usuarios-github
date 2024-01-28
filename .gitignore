@@ -22,3 +22,7 @@
 *.njsproj
 *.sln
 *.sw?
+
+**/vendor
+src/php/storage/*
+!/**/.gitkeep

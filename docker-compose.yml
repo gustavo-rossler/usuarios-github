@@ -3,6 +3,10 @@ version: '3.9'
 services:
 
   php:
-
-  vue:
-
+    build:
+      context: .
+      dockerfile: ./docker/php.dockerfile
+    volumes:
+      - ./src/php/:/var/www/html
+    ports:
+      - 3008:80

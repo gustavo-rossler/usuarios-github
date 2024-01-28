@@ -1,0 +1,25 @@
+{
+    "name": "gustavo-rossler/usuarios-github",
+    "description": "Projeto para listar alguns usuários do github e exibir detalhes das contas.",
+    "authors": [
+        {
+            "name": "Gustavo Rössler",
+            "email": "gustavo_rossler@hotmail.com"
+        }
+    ],
+    "config": {
+        "platform": {
+            "php": "7.4"
+        }
+    },
+    "require": {
+        "pecee/simple-router": "5.4.1.7",
+        "guzzlehttp/guzzle": "^7.8",
+        "php-di/php-di": "^6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Inklo\\": "src/"
+        }
+    }
+}
