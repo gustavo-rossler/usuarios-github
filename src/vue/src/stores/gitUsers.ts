@@ -5,6 +5,7 @@ import { LocalUsersRepository } from '../repositories/LocalUsersRepository';
 
 interface State {
     gitUsers: GitUser[]
+    searchText: string
     gitUser?: GitUser
     loading: boolean
     error?: string
@@ -16,12 +17,23 @@ interface State {
 export const useGitUsersStore = defineStore('gitUsers', {
     state: (): State => ({
         gitUsers: [] as GitUser[],
+        searchText: '',
         gitUser: undefined,
         loading: false,
         error: undefined,
     }),
-    getters: {},
+    getters: {
+        getGitUsers(state): GitUser[] {
+            return state.gitUsers.filter(
+                (user) => user.name.toLocaleLowerCase()
+                    .indexOf(this.searchText.toLocaleLowerCase()) >= 0
+            )
+        },
+    },
     actions: {
+        setSearchText(text: string) {
+            this.searchText = text
+        },
         async fetchUsers() {
             try {
                 if (this.gitUsers.length > 0) {

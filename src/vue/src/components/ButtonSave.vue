@@ -26,6 +26,8 @@ const saveUserLocally = async (): Promise<void> => {
             <p v-if="fileSaved" class="text-success">Usuário salvo <b>{{ fileSaved }}</b></p>
             <Loading v-if="loadingSave" />
         </div>
-        <p v-if="errorSave" class="text-danger my-3">{{ errorSave }}</p>
+        <p v-if="errorSave" class="text-danger my-3">
+            <b>Erro:</b> {{ errorSave }}
+        </p>
     </div>
 </template>

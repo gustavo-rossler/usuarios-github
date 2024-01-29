@@ -10,10 +10,16 @@ const store = useGitUsersStore()
 const users = computed(() => store.gitUsers)
 const loading = computed(() => store.loading)
 const error = computed(() => store.error)
+const searchText = computed(() => store.searchText)
 
 onMounted(() => {
     store.fetchUsers()
 })
+
+const handleChange = (event: Event) => {
+    const target = event?.target as HTMLInputElement
+    store.setSearchText(target?.value ?? '')
+}
 
 </script>
 
@@ -25,6 +31,9 @@ onMounted(() => {
     <p v-if="error" class="alert alert-danger mt-4">{{ error }}</p>
 
     <div class="list-group list-group-flush mt-4" v-if="users.length > 0">
-        <UserListItem :users="users" />
+        <div class="my-4">
+            <input class="form-control" @input="handleChange" :value="searchText" />
+        </div>
+        <UserListItem :users="store.getGitUsers" />
     </div>
 </template>
