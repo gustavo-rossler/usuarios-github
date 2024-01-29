@@ -17,7 +17,7 @@ export class GitUsersRepository {
     }
 
     public async fetchRepos(username: string): Promise<GitRepo[]> {
-        const response = await this.client.get(`${username}/repos`)
+        const response = await this.client.get(`${username}/repos?per_page=100`)
         return response.data as GitRepo[]
     }
 
