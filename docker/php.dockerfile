@@ -10,8 +10,17 @@ RUN apt-get update && apt-get -y --no-install-recommends install git \
 
 RUN a2enmod rewrite && a2enmod headers
 
+COPY ./src/php/composer.json .
+
+RUN composer install \
+    --no-interaction \
+    --no-plugins \
+    --no-scripts \
+    --no-dev \
+    --prefer-dist
+
 COPY ./src/php/ .
 
-RUN chmod -R 0777 storage
+RUN composer dump-autoload
 
-RUN composer install -vv
+RUN chmod -R 0777 storage

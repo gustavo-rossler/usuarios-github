@@ -2,11 +2,21 @@ version: '3.9'
 
 services:
 
-  php:
+  api:
     build:
       context: .
       dockerfile: ./docker/php.dockerfile
     volumes:
       - ./src/php/:/var/www/html
+      - /var/www/html/vendor/
     ports:
       - 3008:80
+
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/web.dockerfile
+    ports:
+      - 3009:80
+    depends_on:
+      - api
