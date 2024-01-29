@@ -1,12 +1,16 @@
 import { defineStore } from 'pinia';
 import { GitUser } from '../models/GitUser';
 import { GitUsersRepository } from '../repositories/GitUsersRepository';
+import { LocalUsersRepository } from '../repositories/LocalUsersRepository';
 
 interface State {
     gitUsers: GitUser[]
     gitUser?: GitUser
     loading: boolean
     error?: string
+    loadingSave?: boolean
+    fileSaved?: string
+    errorSave?: string
 }
 
 export const useGitUsersStore = defineStore('gitUsers', {
@@ -16,11 +20,7 @@ export const useGitUsersStore = defineStore('gitUsers', {
         loading: false,
         error: undefined,
     }),
-    getters: {
-        getRepos(state): GitUser[] {
-            return state.gitUsers
-        }
-    },
+    getters: {},
     actions: {
         async fetchUsers() {
             try {
@@ -45,8 +45,8 @@ export const useGitUsersStore = defineStore('gitUsers', {
                     newRepos.push(await repository.fetchUser(user))
                 }
                 this.gitUsers = newRepos
-            } catch (error: any) {
-                this.error = error
+            } catch (e: any) {
+                this.error = e?.response?.data?.message ?? e
             } finally {
                 this.loading = false
             }
@@ -59,11 +59,29 @@ export const useGitUsersStore = defineStore('gitUsers', {
                 this.loading = true
                 this.gitUser = await repository.fetchUser(username)
                 this.gitUser.repos = await repository.fetchRepos(username)
-            } catch (error: any) {
-                this.error = error
+            } catch (e: any) {
+                this.error = e?.response?.data?.message ?? e
             } finally {
                 this.loading = false
             }
+        },
+        async saveLocally(username: string) {
+            try {
+                const repository = new LocalUsersRepository()
+                this.fileSaved = undefined
+                this.errorSave = undefined
+                this.loadingSave = true
+                this.fileSaved = await repository.saveUser(username)
+            } catch (e: any) {
+                this.errorSave = e?.response?.data?.message ?? e
+            } finally {
+                this.loadingSave = false
+            }
+        },
+        clearSave() {
+            this.fileSaved = undefined
+            this.errorSave = undefined
+            this.loadingSave = false
         },
     },
 })

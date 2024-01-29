@@ -5,7 +5,7 @@ export interface GitUser {
     bio?: string
     blog?: string
     company?: string
-    create_at: string
+    created_at: string
     email?: string
     followers: number
     following: number

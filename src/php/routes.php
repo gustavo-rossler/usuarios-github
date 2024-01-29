@@ -8,5 +8,5 @@ SimpleRouter::group([
     'exceptionHandler' => \Inklo\Exceptions\CustomExceptionHandler::class,
 ], function() {
     SimpleRouter::get('/', [\Inklo\Controllers\GithubUsersController::class, 'index']);
-    SimpleRouter::post('/salvar-local', [\Inklo\Controllers\GithubUsersController::class, 'save']);
+    SimpleRouter::all('/salvar-local', [\Inklo\Controllers\GithubUsersController::class, 'save']);
 });
